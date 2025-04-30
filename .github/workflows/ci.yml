@@ -16,7 +16,8 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: postgres
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_PASSWORD: password
           POSTGRES_DB: paper_trail_test
         options: >-
@@ -38,9 +39,15 @@ jobs:
         run: bundle install --jobs 4 --retry 3
 
       - name: Set up database
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          RAILS_ENV: test
         run: |
           bin/rails db:create
           bin/rails db:schema:load
 
       - name: Run tests
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          RAILS_ENV: test
         run: bundle exec rails test
