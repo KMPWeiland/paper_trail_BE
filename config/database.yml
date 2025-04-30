@@ -14,7 +14,7 @@
     encoding: unicode
     host: localhost
     username: <%= ENV['POSTGRES_USER'] || 'postgres' %>
-    password: <%= ENV['POSTGRES_PASSWORD'] %>
+    password: <%= ENV['POSTGRES_PASSWORD'].presence %>
     pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
   development:
